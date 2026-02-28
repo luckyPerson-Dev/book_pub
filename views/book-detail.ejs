@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Details</title>
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Book",
+            "name": "{{book.title}}",
+            "author": {
+                "@type": "Person",
+                "name": "{{book.author}}"
+            },
+            "image": "{{book.coverImageUrl}}",
+            "description": "{{book.description}}",
+            "isbn": "{{book.isbn}}",
+            "datePublished": "{{book.publishDate}}",
+            "genre": "{{book.subjects.join(', ')}}"
+        }
+    </script>
+</head>
+<body>
+    <div class="book-details">
+        <h1>{{book.title}}</h1>
+        <img src="{{book.coverImageUrl}}" alt="Cover Image" style="width:300px;" />
+        <p><strong>Description:</strong> {{book.description}}</p>
+        <p><strong>Subjects:</strong> {{book.subjects.join(', ')}}</p>
+        <p><strong>Author:</strong> {{book.author}}</p>
+        <button onclick="window.history.back();">Back</button>
+    </div>
+</body>
+</html>
