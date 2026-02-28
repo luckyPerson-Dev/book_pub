@@ -1,39 +1,46 @@
+'use strict';
+
 const express = require('express');
-const axios = require('axios');
-const cache = require('memory-cache');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware to parse JSON requests
+// Middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Middleware for error handling
+// Homepage route
+app.get('/', (req, res) => {
+    res.send('Welcome to the Book Publishing API!');
+});
+
+// Search route
+app.get('/search', (req, res) => {
+    // Sample search functionality
+    const query = req.query.q;
+    // Replace with actual search logic
+    res.json({ message: `Search results for: ${query}` });
+});
+
+// Book details route
+app.get('/books/:id', (req, res) => {
+    const bookId = req.params.id;
+    // Replace with actual logic to get book details
+    res.json({ id: bookId, title: 'Sample Book', author: 'Author Name' });
+});
+
+// API endpoint example
+app.get('/api/books', (req, res) => {
+    // Replace with logic to retrieve list of books
+    res.json([{ title: 'Book 1' }, { title: 'Book 2' }]);
+});
+
+// Error handling
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Something broke!');
 });
 
-// Route to search for books
-app.get('/search', async (req, res) => {
-    const { query } = req;
-    const cacheKey = `search_${query.q}`;
-    const cachedResults = cache.get(cacheKey);
-
-    if (cachedResults) {
-        return res.json(cachedResults);
-    }
-
-    try {
-        const response = await axios.get(`https://openlibrary.org/search.json`, { params: query });
-        cache.put(cacheKey, response.data, 60000); // Cache data for 1 minute
-        res.json(response.data);
-    } catch (error) {
-        console.error('Error fetching data from Open Library:', error);
-        res.status(500).send('Error fetching data.');
-    }
-});
-
-// Starting the server
+// Start server
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
