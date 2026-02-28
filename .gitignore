@@ -1,0 +1,10 @@
+# Node.js
+
+# dependencies
+node_modules/
+
+# dotenv environment variable file
+.env
+
+# macOS file system files
+.DS_Store
